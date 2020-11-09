@@ -1,3 +1,6 @@
+export DOTFILES_PATH = "$HOME/.dotfiles"
+export HOMEBREW_BUNDLE_FILE_PATH = "$DOTFILES_PATH/mac/brew/Brewfile"
+
 function export_apps() {
     brew services stop --all
     brew bundle dump --file="$HOMEBREW_BUNDLE_FILE_PATH" --force
