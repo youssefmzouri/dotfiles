@@ -61,23 +61,36 @@ elif [ -x /home/linuxbrew/.linuxbrew/bin/brew ]; then
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
 
-# 3. Shared CLI tools.
+# 3. Trust third-party taps. Newer Homebrew refuses to install formulae from
+#    untrusted taps (e.g. hashicorp/tap for terraform) until they're trusted.
+trust_tap() {
+  local tap="$1"
+  if is_dry_run; then
+    info "[dry-run] brew tap + trust $tap"
+  elif has brew; then
+    brew tap "$tap" >/dev/null 2>&1 || true
+    brew trust "$tap" >/dev/null 2>&1 || true
+  fi
+}
+trust_tap "hashicorp/tap"
+
+# 4. Shared CLI tools.
 run brew bundle --file="$DOTFILES/packages/Brewfile"
 
-# 4. macOS GUI apps.
+# 5. macOS GUI apps.
 if is_macos; then
   info "Installing macOS apps (casks)..."
   run brew bundle --file="$DOTFILES/packages/Brewfile.darwin"
 fi
 
-# 5. Language runtimes via mise (reads ~/.config/mise/config.toml).
+# 6. Language runtimes via mise (reads ~/.config/mise/config.toml).
 if has mise || is_dry_run; then
   run mise install
 else
   warn "mise not found on PATH yet; open a new shell and run 'mise install'."
 fi
 
-# 6. Docker note (kept out of automation to avoid surprises).
+# 7. Docker note (kept out of automation to avoid surprises).
 if is_linux; then
   warn "Docker on Linux: install Docker Engine via the official script/apt repo, then 'sudo usermod -aG docker \$USER'."
 fi
