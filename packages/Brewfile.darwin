@@ -1,0 +1,20 @@
+# Brewfile.darwin — macOS-only GUI apps (casks) and fonts.
+# Apply with: brew bundle --file=packages/Brewfile.darwin
+# Mirrors the apps used on the Linux machine (snap/manual installs there).
+
+cask_args appdir: "/Applications"
+
+# Fonts
+cask "font-cascadia-code"
+
+# Dev tools / IDEs
+cask "visual-studio-code"
+cask "intellij-idea"
+cask "android-studio"
+cask "docker"           # Docker Desktop
+
+# Terminal / launcher / productivity
+cask "warp"             # terminal (used on Linux too)
+cask "raycast"          # launcher (macOS counterpart to Albert)
+cask "notion"
+cask "discord"

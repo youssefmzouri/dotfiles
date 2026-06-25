@@ -1,0 +1,19 @@
+# apt-packages.txt — low-level base packages for Linux (Ubuntu/Debian).
+# Installed via: sudo apt install $(grep -vE '^\s*#|^\s*$' apt-packages.txt)
+# CLI dev tools go through Homebrew (packages/Brewfile) for parity with macOS.
+# One package per line; # starts a comment.
+
+build-essential
+curl
+wget
+git
+zsh
+unzip
+ca-certificates
+gnupg
+software-properties-common
+xclip
+
+# Homebrew on Linux needs these:
+procps
+file

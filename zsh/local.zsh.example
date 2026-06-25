@@ -1,0 +1,18 @@
+# local.zsh.example — copy to ~/.zshrc.local for per-machine config & secrets.
+#
+#   cp zsh/local.zsh.example ~/.zshrc.local
+#
+# ~/.zshrc.local is sourced last by .zshrc and is NOT tracked in git.
+# Put anything machine-specific or secret here.
+
+# Example: work-only tokens / env
+# export SOME_API_TOKEN="..."
+
+# Example: extra PATH entries
+# export PATH="$HOME/some/tool/bin:$PATH"
+
+# Example: Flutter (currently installed manually under ~/flutter on Linux).
+# export PATH="$HOME/flutter/bin:$PATH"
+
+# Example: AWS / LocalStack helpers
+# alias awslocal="aws --endpoint-url=http://localhost:4566"
