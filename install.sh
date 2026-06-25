@@ -34,7 +34,22 @@ info "Installing dotfiles from $DOTFILES (os=$OS arch=$ARCH${DRY_RUN:+, dry-run}
 info "Linking config files..."
 link_tree "$DOTFILES/home" "$HOME"
 
-# 2. Oh My Zsh + Powerlevel10k + custom plugins.
+# 2. Standard directories.
+ensure_dir() {
+  local dir="$1"
+  if [ -d "$dir" ]; then
+    skip "$dir already exists"
+  elif is_dry_run; then
+    info "[dry-run] mkdir -p $dir"
+  else
+    mkdir -p "$dir"
+    success "created $dir"
+  fi
+}
+info "Ensuring standard directories..."
+ensure_dir "$HOME/Projects"
+
+# 3. Oh My Zsh + Powerlevel10k + custom plugins.
 ZSH="${ZSH:-$HOME/.oh-my-zsh}"
 ZSH_CUSTOM="${ZSH_CUSTOM:-$ZSH/custom}"
 

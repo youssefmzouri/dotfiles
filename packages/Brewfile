@@ -2,6 +2,8 @@
 # Apply with: brew bundle --file=packages/Brewfile
 # Keep this list cross-platform (no casks here — see Brewfile.darwin).
 
+tap "hashicorp/tap"
+
 brew "git"
 brew "gh"          # GitHub CLI
 brew "mise"        # runtime version manager (node/java/python/...)
@@ -13,4 +15,5 @@ brew "eza"         # modern ls
 brew "zoxide"      # smarter cd
 brew "jq"          # JSON processor
 brew "awscli"      # AWS CLI
+brew "hashicorp/tap/terraform"  # infrastructure as code
 brew "zsh"
