@@ -1,0 +1,33 @@
+[user]
+	name = Youssef
+	email = youssefmzouri@gmail.com
+
+[core]
+	excludesFile = ~/.gitignore_global
+	attributesFile = ~/.gitattributes
+
+[init]
+	defaultBranch = main
+
+[pull]
+	rebase = true
+
+[push]
+	autoSetupRemote = true
+
+[fetch]
+	prune = true
+
+[rebase]
+	autoStash = true
+
+[diff]
+	colorMoved = default
+
+[color]
+	ui = auto
+
+# Machine-specific and secret config (signing keys, work identity, credential
+# helpers). NOT tracked in git — create ~/.gitconfig.local as needed.
+[include]
+	path = ~/.gitconfig.local

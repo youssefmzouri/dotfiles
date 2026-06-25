@@ -1,0 +1,17 @@
+# mise global config — replaces nvm (Node) + sdkman (Java/Maven).
+# Apply with: mise install   (reads this file)
+# Docs: https://mise.jdx.dev
+
+[tools]
+node = "24"
+java = "temurin-17"
+maven = "latest"
+python = "3.12"
+
+# Flutter is currently installed manually under ~/flutter. To let mise manage it
+# instead, uncomment the line below and remove the manual PATH entry:
+# flutter = "stable"
+
+[settings]
+# Use the faster Python build backend when available.
+python_compile = false

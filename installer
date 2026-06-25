@@ -1,21 +1,51 @@
 #!/usr/bin/env bash
+# installer — bootstrap on a fresh machine, no git required up front.
+#
+#   bash <(curl -fsSL https://raw.githubusercontent.com/youssefmzouri/dotfiles/main/installer)
+#
+# Clones the repo to ~/.dotfiles and runs install.sh. Pass --with-packages to
+# also run packages.sh (Homebrew, apt base, mise tools).
 
 set -euo pipefail
 
-##? Setups the environment
-#?? 1.0.0
-##?
-##? Based on codelytv/dotfiles
-##? Usage:
-##?    install
+REPO_URL="https://github.com/youssefmzouri/dotfiles.git"
+DOTFILES_PATH="${DOTFILES:-$HOME/.dotfiles}"
+WITH_PACKAGES=0
+[ "${1:-}" = "--with-packages" ] && WITH_PACKAGES=1
 
-echo "🚀 Welcome to the youssefmzouri/dotfiles installer!"
-echo "---------------------------------------------------"
-echo
-export DOTFILES_PATH="$HOME/.dotfiles"
-echo "👉  Cloning into: '$DOTFILES_PATH'"
+echo "🐙 youssefmzouri/dotfiles installer"
+echo "-----------------------------------"
 
-# To test that git is installed (if not macOS will prompt an installer)
-git --version
+# Ensure git exists. On macOS, invoking git triggers the Command Line Tools
+# installer; on Debian/Ubuntu we install it via apt.
+if ! command -v git >/dev/null 2>&1; then
+  if [ "$(uname -s)" = "Darwin" ]; then
+    echo "git not found — triggering Xcode Command Line Tools install..."
+    xcode-select --install || true
+    echo "Re-run this installer once the Command Line Tools finish installing."
+    exit 1
+  else
+    echo "git not found — installing via apt..."
+    sudo apt-get update && sudo apt-get install -y git
+  fi
+fi
 
-git clone --depth 1 git@github.com:youssefmzouri/dotfiles.git "$DOTFILES_PATH"
+# Clone (or update) the repo.
+if [ -d "$DOTFILES_PATH/.git" ]; then
+  echo "Updating existing checkout at $DOTFILES_PATH..."
+  git -C "$DOTFILES_PATH" pull --ff-only
+else
+  echo "Cloning into $DOTFILES_PATH..."
+  git clone --depth 1 "$REPO_URL" "$DOTFILES_PATH"
+fi
+
+# Link configs.
+DOTFILES="$DOTFILES_PATH" "$DOTFILES_PATH/install.sh"
+
+# Optionally install software.
+if [ "$WITH_PACKAGES" -eq 1 ]; then
+  DOTFILES="$DOTFILES_PATH" "$DOTFILES_PATH/packages.sh"
+else
+  echo
+  echo "Tip: run '$DOTFILES_PATH/packages.sh' to install Homebrew, packages and mise tools."
+fi
